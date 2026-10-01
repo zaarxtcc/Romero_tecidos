@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Produto | Romero Tecidos</title>
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul: #5aa9e6;
+            --azul-escuro: #3d8dcc;
+            --texto: #333333;
+            --cinza: #777777;
+            --fundo: #f7f9fb;
+            --borda: #e5e5e5;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--fundo);
+            color: var(--texto);
+        }
+
+
+        /* ==============================
+           CABEÇALHO
+        ============================== */
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #eeeeee;
+            padding: 15px 0;
+        }
+
+        .header-container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 170px;
+            max-height: 75px;
+            object-fit: contain;
+        }
+
+        .voltar {
+            text-decoration: none;
+            color: var(--azul-escuro);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .voltar i {
+            margin-right: 5px;
+        }
+
+
+        /* ==============================
+           CONTAINER DO PRODUTO
+        ============================== */
+
+        .produto-container {
+
+            width: 92%;
+            max-width: 1200px;
+
+            margin: 45px auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 55px;
+
+            background: #ffffff;
+
+            padding: 35px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+
+        /* ==============================
+           FOTO PRINCIPAL
+        ============================== */
+
+        .imagem-principal {
+
+            width: 100%;
+            height: 480px;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            background: #f3f3f3;
+        }
+
+        .imagem-principal img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition: 0.3s;
+        }
+
+
+        /* ==============================
+           MINIATURAS
+        ============================== */
+
+        .miniaturas {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 15px;
+        }
+
+        .miniatura {
+
+            height: 105px;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            border: 2px solid transparent;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .miniatura:hover {
+            border-color: var(--azul);
+        }
+
+        .miniatura.ativa {
+            border-color: var(--azul);
+        }
+
+        .miniatura img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        /* ==============================
+           INFORMAÇÕES
+        ============================== */
+
+        .categoria {
+
+            color: var(--azul-escuro);
+
+            text-transform: uppercase;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+        }
+
+        .produto-info h1 {
+
+            font-size: 34px;
+
+            line-height: 1.2;
+
+            margin-bottom: 8px;
+        }
+
+        .codigo {
+
+            color: #999999;
+
+            font-size: 13px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ==============================
+           PREÇO
+        ============================== */
+
+        .preco {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: var(--azul-escuro);
+
+            margin-bottom: 5px;
+        }
+
+        .por-metro {
+
+            color: var(--cinza);
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+
+        /* ==============================
+           DETALHES
+        ============================== */
+
+        .detalhes {
+
+            border-top: 1px solid var(--borda);
+
+            border-bottom: 1px solid var(--borda);
+
+            padding: 22px 0;
+
+            margin-bottom: 25px;
+        }
+
+        .detalhe {
+
+            display: flex;
+
+            margin-bottom: 12px;
+
+            font-size: 14px;
+        }
+
+        .detalhe:last-child {
+            margin-bottom: 0;
+        }
+
+        .detalhe i {
+
+            width: 28px;
+
+            color: var(--azul);
+        }
+
+        .detalhe strong {
+            margin-right: 5px;
+        }
+
+
+        /* ==============================
+           DESCRIÇÃO
+        ============================== */
+
+        .descricao {
+            margin-bottom: 25px;
+        }
+
+        .descricao h3 {
+
+            font-size: 17px;
+
+            margin-bottom: 10px;
+        }
+
+        .descricao p {
+
+            color: #666666;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* ==============================
+           INDICAÇÕES
+        ============================== */
+
+        .indicacoes {
+            margin-bottom: 28px;
+        }
+
+        .indicacoes h3 {
+
+            font-size: 17px;
+
+            margin-bottom: 10px;
+        }
+
+        .indicacoes ul {
+            list-style: none;
+        }
+
+        .indicacoes li {
+
+            color: #666666;
+
+            font-size: 14px;
+
+            margin-bottom: 7px;
+        }
+
+        .indicacoes li i {
+
+            color: var(--azul);
+
+            margin-right: 8px;
+        }
+
+
+        /* ==============================
+           BOTÕES
+        ============================== */
+
+        .botoes {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+        .btn {
+
+            width: 100%;
+
+            padding: 16px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+            transition: 0.25s;
+        }
+
+
+        /* MERCADO LIVRE */
+
+        .btn-ml {
+
+            background: #ffe600;
+
+            color: #333333;
+        }
+
+        .btn-ml:hover {
+
+            background: #f5dc00;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* WHATSAPP */
+
+        .btn-whatsapp {
+
+            background: #25d366;
+
+            color: #ffffff;
+        }
+
+        .btn-whatsapp:hover {
+
+            background: #1ebe5d;
+
+            transform: translateY(-2px);
+        }
+
+        .btn i {
+            margin-right: 7px;
+        }
+
+
+        /* AVISO */
+
+        .ml-aviso {
+
+            margin-top: 12px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color: #999999;
+        }
+
+
+        /* ==============================
+           PRODUTO NÃO ENCONTRADO
+        ============================== */
+
+        .erro-produto {
+
+            display: none;
+
+            width: 92%;
+
+            max-width: 700px;
+
+            margin: 70px auto;
+
+            background: #ffffff;
+
+            padding: 50px 25px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .erro-produto i {
+
+            font-size: 45px;
+
+            color: var(--azul);
+
+            margin-bottom: 20px;
+        }
+
+        .erro-produto h2 {
+
+            margin-bottom: 10px;
+        }
+
+        .erro-produto p {
+
+            color: #777777;
+
+            margin-bottom: 25px;
+        }
+
+        .erro-produto a {
+
+            display: inline-block;
+
+            background: var(--azul);
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 13px 22px;
+
+            border-radius: 9px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           RODAPÉ
+        ============================== */
+
+        footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #999999;
+
+            font-size: 12px;
+        }
+
+
+        /* ==============================
+           TABLET / CELULAR
+        ============================== */
+
+        @media (max-width: 768px) {
+
+            .header-container {
+                width: 90%;
+            }
+
+            .logo img {
+                width: 130px;
+            }
+
+            .produto-container {
+
+                width: 94%;
+
+                margin: 20px auto;
+
+                grid-template-columns: 1fr;
+
+                gap: 28px;
+
+                padding: 18px;
+            }
+
+            .imagem-principal {
+                height: 370px;
+            }
+
+            .miniatura {
+                height: 85px;
+            }
+
+            .produto-info h1 {
+                font-size: 25px;
+            }
+
+            .preco {
+                font-size: 25px;
+            }
+        }
+
+
+        @media (max-width: 420px) {
+
+            .imagem-principal {
+                height: 320px;
+            }
+
+            .miniatura {
+                height: 72px;
+            }
+
+            .produto-container {
+                padding: 14px;
+            }
+
+            .voltar {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================
+     CABEÇALHO
+======================================== -->
+
+<header>
+
+    <div class="header-container">
+
+        <div class="logo">
+
+            <!--
+                Se sua logo estiver em outro lugar,
+                depois ajustamos este caminho.
+            -->
+
+            <img
+                src="../logo.png"
+                alt="Romero Tecidos"
+            >
+
+        </div>
+
+
+        <a
+    href="javascript:history.back()"
+    class="voltar"
+>
+    <i class="fa-solid fa-arrow-left"></i>
+    Voltar aos tecidos
+</a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ========================================
+     PRODUTO
+======================================== -->
+
+<main
+    class="produto-container"
+    id="produtoContainer"
+>
+
+
+    <!-- ====================================
+         LADO ESQUERDO - FOTOS
+    ===================================== -->
+
+    <section>
+
+
+        <!-- FOTO GRANDE -->
+
+        <div class="imagem-principal">
+
+            <img
+                id="imagemPrincipal"
+                src=""
+                alt=""
+            >
+
+        </div>
+
+
+
+        <!-- MINIATURAS -->
+
+        <div class="miniaturas">
+
+
+            <div class="miniatura ativa">
+
+                <img
+                    id="foto1"
+                    src=""
+                    alt=""
+                    onclick="trocarImagem(this)"
+                >
+
+            </div>
+
+
+            <div class="miniatura">
+
+                <img
+                    id="foto2"
+                    src=""
+                    alt=""
+                    onclick="trocarImagem(this)"
+                >
+
+            </div>
+
+
+            <div class="miniatura">
+
+                <img
+                    id="foto3"
+                    src=""
+                    alt=""
+                    onclick="trocarImagem(this)"
+                >
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ====================================
+         LADO DIREITO - INFORMAÇÕES
+    ===================================== -->
+
+    <section class="produto-info">
+
+
+        <p
+            class="categoria"
+            id="categoria"
+        >
+        </p>
+
+
+        <h1 id="nomeProduto">
+        </h1>
+
+
+        <p
+            class="codigo"
+            id="codigoProduto"
+        >
+        </p>
+
+
+
+        <!-- PREÇO -->
+
+        <div
+            class="preco"
+            id="precoProduto"
+        >
+            Consulte o preço
+        </div>
+
+
+        <p class="por-metro">
+            Venda por metro
+        </p>
+
+
+
+        <!-- DETALHES -->
+
+        <div class="detalhes">
+
+
+            <div class="detalhe">
+
+                <i class="fa-solid fa-ruler-horizontal"></i>
+
+                <span>
+
+                    <strong>
+                        Largura:
+                    </strong>
+
+                    <span id="larguraProduto">
+                        Consulte-nos
+                    </span>
+
+                </span>
+
+            </div>
+
+
+
+            <div class="detalhe">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                <span>
+
+                    <strong>
+                        Composição:
+                    </strong>
+
+                    <span id="composicaoProduto">
+                        Consulte-nos
+                    </span>
+
+                </span>
+
+            </div>
+
+
+
+            <div class="detalhe">
+
+                <i class="fa-solid fa-scissors"></i>
+
+                <span>
+
+                    <strong>
+                        Venda:
+                    </strong>
+
+                    Por metro
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- DESCRIÇÃO -->
+
+        <div class="descricao">
+
+            <h3>
+                Sobre este tecido
+            </h3>
+
+            <p id="descricaoProduto">
+            </p>
+
+        </div>
+
+
+
+        <!-- INDICAÇÕES -->
+
+        <div class="indicacoes">
+
+            <h3>
+                Ideal para
+            </h3>
+
+            <ul id="listaIndicacoes">
+            </ul>
+
+        </div>
+
+
+
+        <!-- BOTÕES -->
+
+        <div class="botoes">
+
+
+            <!-- MERCADO LIVRE -->
+
+            <a
+                href="#"
+                class="btn btn-ml"
+                id="btnMercadoLivre"
+            >
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                Comprar no Mercado Livre
+
+            </a>
+
+
+
+            <!-- WHATSAPP -->
+
+            <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-whatsapp"
+                id="btnWhatsapp"
+            >
+
+                <i class="fa-brands fa-whatsapp"></i>
+
+                Tirar dúvida pelo WhatsApp
+
+            </a>
+
+
+        </div>
+
+
+        <p class="ml-aviso">
+
+            A compra será finalizada
+            com segurança pelo Mercado Livre.
+
+        </p>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ========================================
+     PRODUTO NÃO ENCONTRADO
+======================================== -->
+
+<div
+    class="erro-produto"
+    id="erroProduto"
+>
+
+    <i class="fa-solid fa-shirt"></i>
+
+    <h2>
+        Produto não encontrado
+    </h2>
+
+    <p>
+        Não conseguimos encontrar esse tecido.
+        Volte para o catálogo e escolha outro produto.
+    </p>
+
+    <a href="javascript:history.back()">
+    Voltar aos tecidos
+</a>
+
+</div>
+
+
+
+<footer>
+
+    © 2026 Romero Tecidos • Americana - SP
+
+</footer>
+
+
+
+<script>
+
+/* ==========================================================
+   BANCO DE PRODUTOS
+   ----------------------------------------------------------
+   Depois vamos acrescentar:
+   - preço real
+   - largura real
+   - composição real
+   - link do Mercado Livre
+========================================================== */
+
+
+const produtos = {
+
+
+/* ==========================================================
+   TRICOLINE
+========================================================== */
+
+"tricoline-01": {
+
+    categoria: "Tricoline",
+
+    nome: "Tricoline Modelo 01",
+
+    codigo: "TRI-001",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Tecido tricoline selecionado pela Romero Tecidos. Consulte nossa equipe para informações sobre cores, disponibilidade, composição e demais características.",
+
+    indicacoes: [
+        "Artesanato",
+        "Costura",
+        "Decoração"
+    ],
+
+    fotos: [
+        "../new_img/tricoline/tricoline_1.png",
+        "../new_img/tricoline/tricoline_2.png",
+        "../new_img/tricoline/tricoline_3.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+"tricoline-02": {
+
+    categoria: "Tricoline",
+
+    nome: "Tricoline Modelo 02",
+
+    codigo: "TRI-002",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Tecido tricoline da Romero Tecidos. Entre em contato conosco para consultar detalhes, disponibilidade e opções disponíveis.",
+
+    indicacoes: [
+        "Artesanato",
+        "Costura",
+        "Projetos criativos"
+    ],
+
+    fotos: [
+        "../new_img/tricoline/tricoline_2.png",
+        "../new_img/tricoline/tricoline_1.png",
+        "../new_img/tricoline/tricoline_3.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+"tricoline-03": {
+
+    categoria: "Tricoline",
+
+    nome: "Tricoline Modelo 03",
+
+    codigo: "TRI-003",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Tricoline disponível na Romero Tecidos. Consulte nossa equipe para informações completas sobre este modelo.",
+
+    indicacoes: [
+        "Costura",
+        "Artesanato",
+        "Decoração"
+    ],
+
+    fotos: [
+        "../new_img/tricoline/tricoline_3.png",
+        "../new_img/tricoline/tricoline_1.png",
+        "../new_img/tricoline/tricoline_2.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+
+/* ==========================================================
+   JEANS
+========================================================== */
+
+"jeans-01": {
+
+    categoria: "Jeans",
+
+    nome: "Jeans Modelo 01",
+
+    codigo: "JEA-001",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Jeans selecionado pela Romero Tecidos. Consulte nossa equipe para informações sobre peso, composição, largura e disponibilidade.",
+
+    indicacoes: [
+        "Calças",
+        "Jaquetas",
+        "Moda"
+    ],
+
+    fotos: [
+        "../new_img/jeans/jeans_1.png",
+        "../new_img/jeans/jeasn_2.png",
+        "../new_img/jeans/jeans_3.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+"jeans-02": {
+
+    categoria: "Jeans",
+
+    nome: "Jeans Modelo 02",
+
+    codigo: "JEA-002",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Jeans da Romero Tecidos. Consulte nossa equipe para conferir características e disponibilidade deste modelo.",
+
+    indicacoes: [
+        "Calças",
+        "Bermudas",
+        "Jaquetas"
+    ],
+
+    fotos: [
+        "../new_img/jeans/jeasn_2.png",
+        "../new_img/jeans/jeans_1.png",
+        "../new_img/jeans/jeans_3.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+"jeans-03": {
+
+    categoria: "Jeans",
+
+    nome: "Jeans Modelo 03",
+
+    codigo: "JEA-003",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Modelo de jeans disponível na Romero Tecidos. Entre em contato para consultar as especificações deste produto.",
+
+    indicacoes: [
+        "Moda",
+        "Calças",
+        "Jaquetas"
+    ],
+
+    fotos: [
+        "../new_img/jeans/jeans_3.png",
+        "../new_img/jeans/jeans_1.png",
+        "../new_img/jeans/jeasn_2.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+
+/* ==========================================================
+   LINHO
+========================================================== */
+
+"linho-01": {
+
+    categoria: "Linho",
+
+    nome: "Linho Modelo 01",
+
+    codigo: "LIN-001",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Linho da seleção Romero Tecidos. Consulte nossa equipe para conhecer composição, largura, cores e disponibilidade.",
+
+    indicacoes: [
+        "Camisas",
+        "Vestidos",
+        "Moda"
+    ],
+
+    fotos: [
+        "../new_img/linho/linho_1.png",
+        "../new_img/linho/linho_2.png",
+        "../new_img/linho/linho_3.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+"linho-02": {
+
+    categoria: "Linho",
+
+    nome: "Linho Modelo 02",
+
+    codigo: "LIN-002",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Modelo de linho disponível na Romero Tecidos. Fale conosco para conferir todas as características.",
+
+    indicacoes: [
+        "Camisas",
+        "Vestidos",
+        "Conjuntos"
+    ],
+
+    fotos: [
+        "../new_img/linho/linho_2.png",
+        "../new_img/linho/linho_1.png",
+        "../new_img/linho/linho_3.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+"linho-03": {
+
+    categoria: "Linho",
+
+    nome: "Linho Modelo 03",
+
+    codigo: "LIN-003",
+
+    preco: "Consulte o preço",
+
+    largura: "Consulte-nos",
+
+    composicao: "Consulte-nos",
+
+    descricao:
+        "Linho selecionado pela Romero Tecidos. Consulte disponibilidade, composição e demais informações com nossa equipe.",
+
+    indicacoes: [
+        "Moda",
+        "Vestidos",
+        "Camisas"
+    ],
+
+    fotos: [
+        "../new_img/linho/linho_3.png",
+        "../new_img/linho/linho_1.png",
+        "../new_img/linho/linho_2.png"
+    ],
+
+    mercadoLivre: ""
+
+},
+
+
+
+/* ==========================================================
+   Viscose
+========================================================== */
+
+"viscose-01": criarProduto(
+    "Viscose",
+    "VIS",
+    1,
+    "viscose",
+    "viscose_1.png",
+    "viscose_2.png",
+    "viscose_3.png"
+),
+
+"viscose-02": criarProduto(
+    "Viscose",
+    "VIS",
+    2,
+    "viscose",
+    "viscose_2.png",
+    "viscose_1.png",
+    "viscose_3.png"
+),
+
+"viscose-03": criarProduto(
+    "Viscose",
+    "VIS",
+    3,
+    "viscose",
+    "viscose_3.png",
+    "viscose_1.png",
+    "viscose_2.png"
+),
+
+
+
+/* ==========================================================
+   VISCOLINHO
+========================================================== */
+
+"viscolinho-01": criarProduto(
+    "Viscolinho",
+    "VSL",
+    1,
+    "viscolinho",
+    "viscolinho_1.png",
+    "viscolinho_2.png",
+    "visxcolinho_3.png"
+),
+
+"viscolinho-02": criarProduto(
+    "Viscolinho",
+    "VSL",
+    2,
+    "viscolinho",
+    "viscolinho_2.png",
+    "viscolinho_1.png",
+    "visxcolinho_3.png"
+),
+
+"viscolinho-03": criarProduto(
+    "Viscolinho",
+    "VSL",
+    3,
+    "viscolinho",
+    "visxcolinho_3.png",
+    "viscolinho_1.png",
+    "viscolinho_2.png"
+),
+
+
+
+/* ==========================================================
+   BRIM
+========================================================== */
+
+"brim-01": criarProduto(
+    "Brim",
+    "BRI",
+    1,
+    "brim",
+    "brim.png",
+    "brim_2.png",
+    "brim_3.png"
+),
+
+"brim-02": criarProduto(
+    "Brim",
+    "BRI",
+    2,
+    "brim",
+    "brim_2.png",
+    "brim.png",
+    "brim_3.png"
+),
+
+"brim-03": criarProduto(
+    "Brim",
+    "BRI",
+    3,
+    "brim",
+    "brim_3.png",
+    "brim.png",
+    "brim_2.png"
+),
+
+
+
+/* ==========================================================
+   ALFAIATARIA
+========================================================== */
+
+"alfaiataria-01": criarProduto(
+    "Alfaiataria",
+    "ALF",
+    1,
+    "alfaiataria",
+    "alfaiataria_1.png",
+    "alfaiataria_2.png",
+    "alfaiataria_3.png"
+),
+
+"alfaiataria-02": criarProduto(
+    "Alfaiataria",
+    "ALF",
+    2,
+    "alfaiataria",
+    "alfaiataria_2.png",
+    "alfaiataria_1.png",
+    "alfaiataria_3.png"
+),
+
+"alfaiataria-03": criarProduto(
+    "Alfaiataria",
+    "ALF",
+    3,
+    "alfaiataria",
+    "alfaiataria_3.png",
+    "alfaiataria_1.png",
+    "alfaiataria_2.png"
+),
+
+
+
+/* ==========================================================
+   CAMISARIA
+========================================================== */
+
+"camisaria-01": criarProduto(
+    "Camisaria",
+    "CAM",
+    1,
+    "camisaria",
+    "camisaria_1.png",
+    "camisaria_2.png",
+    "camisaria_3.png"
+),
+
+"camisaria-02": criarProduto(
+    "Camisaria",
+    "CAM",
+    2,
+    "camisaria",
+    "camisaria_2.png",
+    "camisaria_1.png",
+    "camisaria_3.png"
+),
+
+"camisaria-03": criarProduto(
+    "Camisaria",
+    "CAM",
+    3,
+    "camisaria",
+    "camisaria_3.png",
+    "camisaria_1.png",
+    "camisaria_2.png"
+),
+
+
+
+/* ==========================================================
+   MALHAS
+========================================================== */
+
+"malhas-01": criarProduto(
+    "Malhas",
+    "MAL",
+    1,
+    "malhas",
+    "malhas_1.png",
+    "malhas_2.png",
+    "malhas_3.png"
+),
+
+"malhas-02": criarProduto(
+    "Malhas",
+    "MAL",
+    2,
+    "malhas",
+    "malhas_2.png",
+    "malhas_1.png",
+    "malhas_3.png"
+),
+
+"malhas-03": criarProduto(
+    "Malhas",
+    "MAL",
+    3,
+    "malhas",
+    "malhas_3.png",
+    "malhas_1.png",
+    "malhas_2.png"
+),
+
+
+
+/* ==========================================================
+   ALGODÃO CRU
+========================================================== */
+
+"algodao_cru-01": criarProduto(
+    "Algodão Cru",
+    "ALG",
+    1,
+    "algodao_cru",
+    "algodao_1.png",
+    "algodao_2.png",
+    "algodao_3.png"
+),
+
+"algodao_cru-02": criarProduto(
+    "Algodão Cru",
+    "ALG",
+    2,
+    "algodao_cru",
+    "algodao_2.png",
+    "algodao_1.png",
+    "algodao_3.png"
+),
+
+"algodao_cru-03": criarProduto(
+    "Algodão Cru",
+    "ALG",
+    3,
+    "algodao_cru",
+    "algodao_3.png",
+    "algodao_1.png",
+    "algodao_2.png"
+),
+
+
+
+/* ==========================================================
+   CETIM
+========================================================== */
+
+"cetim-01": criarProduto(
+    "Cetim",
+    "CET",
+    1,
+    "cetim",
+    "cetim_1.png",
+    "cetim_2.png",
+    "cetim_3.png"
+),
+
+"cetim-02": criarProduto(
+    "Cetim",
+    "CET",
+    2,
+    "cetim",
+    "cetim_2.png",
+    "cetim_1.png",
+    "cetim_3.png"
+),
+
+"cetim-03": criarProduto(
+    "Cetim",
+    "CET",
+    3,
+    "cetim",
+    "cetim_3.png",
+    "cetim_1.png",
+    "cetim_2.png"
+),
+
+
+
+/* ==========================================================
+   RENDA
+========================================================== */
+
+"renda-01": criarProduto(
+    "Renda",
+    "REN",
+    1,
+    "renda",
+    "renda_1.png",
+    "renda_2.png",
+    "renda_3.png"
+),
+
+"renda-02": criarProduto(
+    "Renda",
+    "REN",
+    2,
+    "renda",
+    "renda_2.png",
+    "renda_1.png",
+    "renda_3.png"
+),
+
+"renda-03": criarProduto(
+    "Renda",
+    "REN",
+    3,
+    "renda",
+    "renda_3.png",
+    "renda_1.png",
+    "renda_2.png"
+)
+
+};
+
+
+
+/* ==========================================================
+   FUNÇÃO PARA CRIAR PRODUTOS MAIS RAPIDAMENTE
+========================================================== */
+
+function criarProduto(
+    categoria,
+    codigo,
+    numero,
+    pasta,
+    foto1,
+    foto2,
+    foto3
+) {
+
+    return {
+
+        categoria: categoria,
+
+        nome:
+            categoria +
+            " Modelo " +
+            String(numero).padStart(2, "0"),
+
+        codigo:
+            codigo +
+            "-" +
+            String(numero).padStart(3, "0"),
+
+        preco:
+            "Consulte o preço",
+
+        largura:
+            "Consulte-nos",
+
+        composicao:
+            "Consulte-nos",
+
+        descricao:
+            categoria +
+            " selecionado pela Romero Tecidos. " +
+            "Consulte nossa equipe para informações " +
+            "sobre disponibilidade, composição, largura " +
+            "e demais características.",
+
+        indicacoes: [
+            "Costura",
+            "Moda",
+            "Diversos projetos"
+        ],
+
+        fotos: [
+
+            "../new_img/" +
+            pasta +
+            "/" +
+            foto1,
+
+            "../new_img/" +
+            pasta +
+            "/" +
+            foto2,
+
+            "../new_img/" +
+            pasta +
+            "/" +
+            foto3
+
+        ],
+
+        mercadoLivre: ""
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   DESCOBRE QUAL PRODUTO FOI CLICADO
+========================================================== */
+
+const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const idProduto =
+    parametros.get("id");
+
+
+const produto =
+    produtos[idProduto];
+
+
+
+/* ==========================================================
+   SE PRODUTO NÃO EXISTIR
+========================================================== */
+
+if (!produto) {
+
+    document
+        .getElementById("produtoContainer")
+        .style.display = "none";
+
+
+    document
+        .getElementById("erroProduto")
+        .style.display = "block";
+
+}
+
+
+
+/* ==========================================================
+   SE PRODUTO EXISTIR
+========================================================== */
+
+else {
+
+    carregarProduto(produto);
+
+}
+
+
+
+/* ==========================================================
+   CARREGAR PRODUTO NA TELA
+========================================================== */
+
+function carregarProduto(produto) {
+
+
+    /* TÍTULO DA ABA */
+
+    document.title =
+        produto.nome +
+        " | Romero Tecidos";
+
+
+    /* CATEGORIA */
+
+    document
+        .getElementById("categoria")
+        .textContent =
+        produto.categoria;
+
+
+    /* NOME */
+
+    document
+        .getElementById("nomeProduto")
+        .textContent =
+        produto.nome;
+
+
+    /* CÓDIGO */
+
+    document
+        .getElementById("codigoProduto")
+        .textContent =
+        "Código: " +
+        produto.codigo;
+
+
+    /* PREÇO */
+
+    document
+        .getElementById("precoProduto")
+        .textContent =
+        produto.preco;
+
+
+    /* LARGURA */
+
+    document
+        .getElementById("larguraProduto")
+        .textContent =
+        produto.largura;
+
+
+    /* COMPOSIÇÃO */
+
+    document
+        .getElementById("composicaoProduto")
+        .textContent =
+        produto.composicao;
+
+
+    /* DESCRIÇÃO */
+
+    document
+        .getElementById("descricaoProduto")
+        .textContent =
+        produto.descricao;
+
+
+
+    /* ======================================
+       FOTOS
+    ====================================== */
+
+    const principal =
+        document.getElementById(
+            "imagemPrincipal"
+        );
+
+
+    const foto1 =
+        document.getElementById(
+            "foto1"
+        );
+
+
+    const foto2 =
+        document.getElementById(
+            "foto2"
+        );
+
+
+    const foto3 =
+        document.getElementById(
+            "foto3"
+        );
+
+
+    principal.src =
+        produto.fotos[0];
+
+
+    principal.alt =
+        produto.nome;
+
+
+    foto1.src =
+        produto.fotos[0];
+
+
+    foto2.src =
+        produto.fotos[1];
+
+
+    foto3.src =
+        produto.fotos[2];
+
+
+    foto1.alt =
+        produto.nome + " - foto 1";
+
+
+    foto2.alt =
+        produto.nome + " - foto 2";
+
+
+    foto3.alt =
+        produto.nome + " - foto 3";
+
+
+
+    /* ======================================
+       INDICAÇÕES
+    ====================================== */
+
+    const lista =
+        document.getElementById(
+            "listaIndicacoes"
+        );
+
+
+    lista.innerHTML = "";
+
+
+    produto.indicacoes.forEach(
+        function (indicacao) {
+
+            const li =
+                document.createElement("li");
+
+
+            li.innerHTML =
+                '<i class="fa-solid fa-check"></i>' +
+                indicacao;
+
+
+            lista.appendChild(li);
+
+        }
+    );
+
+
+
+    /* ======================================
+       WHATSAPP
+    ====================================== */
+
+    const mensagemWhatsapp =
+
+        "Olá! Gostaria de mais informações sobre " +
+
+        produto.nome +
+
+        " (" +
+
+        produto.codigo +
+
+        ").";
+
+
+    const linkWhatsapp =
+
+        "https://wa.me/5519989594037?text=" +
+
+        encodeURIComponent(
+            mensagemWhatsapp
+        );
+
+
+    document
+        .getElementById("btnWhatsapp")
+        .href =
+        linkWhatsapp;
+
+
+
+    /* ======================================
+       MERCADO LIVRE
+    ====================================== */
+
+    const botaoML =
+        document.getElementById(
+            "btnMercadoLivre"
+        );
+
+
+    if (produto.mercadoLivre) {
+
+        botaoML.href =
+            produto.mercadoLivre;
+
+
+        botaoML.target =
+            "_blank";
+
+
+        botaoML.rel =
+            "noopener noreferrer";
+
+    }
+
+    else {
+
+        botaoML.href = "#";
+
+
+        botaoML.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                alert(
+                    "Nossa loja no Mercado Livre está sendo preparada. Em breve este produto estará disponível para compra!"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   TROCAR FOTO GRANDE
+========================================================== */
+
+function trocarImagem(imagem) {
+
+
+    const principal =
+        document.getElementById(
+            "imagemPrincipal"
+        );
+
+
+    principal.src =
+        imagem.src;
+
+
+
+    /* RETIRA A BORDA DAS OUTRAS */
+
+    document
+        .querySelectorAll(".miniatura")
+        .forEach(
+            function (miniatura) {
+
+                miniatura
+                    .classList
+                    .remove("ativa");
+
+            }
+        );
+
+
+
+    /* COLOCA BORDA NA SELECIONADA */
+
+    imagem
+        .parentElement
+        .classList
+        .add("ativa");
+
+}
+
+</script>
+
+
+</body>
+
+</html>
