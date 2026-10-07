@@ -1516,3 +1516,15 @@ a[href*="wa.me"] {
     color: #333333;
     text-decoration: none;
 }
+/* CELULAR: sempre 2 tecidos por linha */
+@media (max-width: 767px) {
+
+    .product-item {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+    }
+
+}
