@@ -1516,15 +1516,24 @@ a[href*="wa.me"] {
     color: #333333;
     text-decoration: none;
 }
-/* CELULAR: sempre 2 tecidos por linha */
-@media (max-width: 767px) {
 
-    .product-item {
+/* =========================================
+   CELULAR - 2 TECIDOS POR LINHA
+========================================= */
+
+@media (max-width: 575.98px) {
+
+    #mgrid .mwrap {
         width: 50% !important;
         flex: 0 0 50% !important;
         max-width: 50% !important;
         padding-left: 6px !important;
         padding-right: 6px !important;
+    }
+
+    #mgrid {
+        --bs-gutter-x: 0 !important;
+        row-gap: 12px !important;
     }
 
 }
