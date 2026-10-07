@@ -1,0 +1,520 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eef7eb;
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+}
+
+.login-box h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.login-box > p {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.login-box label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #79a96b;
+}
+
+.login-box button {
+    width: 100%;
+    border: 0;
+    padding: 14px;
+    margin-top: 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #79a96b;
+    color: white;
+}
+
+.login-box button:hover {
+    opacity: 0.9;
+}
+
+#mensagem {
+    margin-top: 15px;
+    text-align: center;
+}
+/* =========================================
+   PAINEL ADMINISTRATIVO - ROMERO TECIDOS
+========================================= */
+
+.admin-header {
+    width: 100%;
+    min-height: 85px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8e8e8;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 6%;
+}
+
+.admin-header h1 {
+    font-size: 23px;
+    color: #222;
+    margin-bottom: 3px;
+}
+
+.admin-header p {
+    font-size: 13px;
+    color: #777;
+}
+
+#btnSair {
+    background: #f3f3f3;
+    color: #444;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#btnSair:hover {
+    background: #e8e8e8;
+}
+
+
+/* ÁREA PRINCIPAL */
+
+.admin-container {
+    min-height: calc(100vh - 85px);
+    background: #f5f7f8;
+    padding: 40px 6%;
+}
+
+
+/* TÍTULO */
+
+.admin-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.admin-title h2 {
+    font-size: 28px;
+    color: #222;
+    margin-bottom: 5px;
+}
+
+.admin-title p {
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* BOTÃO NOVO TECIDO */
+
+#btnNovoProduto {
+    border: none;
+    background: #59a9e8;
+    color: white;
+
+    padding: 13px 20px;
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnNovoProduto:hover {
+    opacity: 0.9;
+}
+
+
+/* LISTA DOS PRODUTOS */
+
+#listaProdutos {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+
+    box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+#listaProdutos > p {
+    color: #777;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 600px) {
+
+    .admin-header {
+        padding: 15px 20px;
+    }
+
+    .admin-header h1 {
+        font-size: 19px;
+    }
+
+    .admin-container {
+        padding: 25px 18px;
+    }
+
+    .admin-title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #btnNovoProduto {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   CARDS DOS PRODUTOS
+========================================= */
+
+.produto-admin {
+    display: flex;
+    gap: 22px;
+
+    padding: 18px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.produto-admin:last-child {
+    border-bottom: none;
+}
+
+.produto-foto {
+    width: 125px;
+    height: 125px;
+    flex-shrink: 0;
+}
+
+.produto-foto img,
+.sem-foto {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.produto-foto img {
+    object-fit: cover;
+}
+
+.sem-foto {
+    background: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    font-size: 13px;
+}
+
+.produto-info {
+    flex: 1;
+}
+
+.produto-topo {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.produto-topo h3 {
+    font-size: 19px;
+    margin-bottom: 4px;
+}
+
+.produto-topo p {
+    color: #888;
+    font-size: 13px;
+}
+
+.status {
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.status.disponivel {
+    color: #429557;
+}
+
+.status.indisponivel {
+    color: #d65353;
+}
+
+.produto-estoque {
+    margin-top: 20px;
+}
+
+.produto-estoque span {
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.produto-estoque strong {
+    font-size: 17px;
+}
+
+.produto-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.produto-acoes button {
+    padding: 9px 13px;
+    border-radius: 7px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+.produto-acoes button:hover {
+    background: #f5f5f5;
+}
+
+.btn-status {
+    color: #b74343;
+}
+
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    .produto-admin {
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .produto-foto {
+        width: 90px;
+        height: 90px;
+    }
+
+    .produto-topo {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .produto-acoes {
+        flex-direction: column;
+    }
+
+    .produto-acoes button {
+        width: 100%;
+    }
+}
+/* =========================================
+   MODAL EDITAR PRODUTO
+========================================= */
+
+.modal-admin {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal-admin.ativo {
+    display: flex;
+}
+
+.modal-conteudo {
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 28px;
+
+    box-shadow: 0 15px 50px rgba(0,0,0,0.20);
+}
+
+.modal-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 25px;
+}
+
+.modal-topo h2 {
+    font-size: 23px;
+    margin-bottom: 4px;
+}
+
+.modal-topo p {
+    font-size: 13px;
+    color: #888;
+}
+
+.modal-fechar {
+    border: none;
+    background: transparent;
+
+    font-size: 28px;
+    cursor: pointer;
+
+    color: #777;
+}
+
+.modal-conteudo label {
+    display: block;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-top: 16px;
+    margin-bottom: 7px;
+}
+
+.modal-conteudo input,
+.modal-conteudo textarea {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.modal-conteudo textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.campo-metragem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.campo-metragem input {
+    flex: 1;
+}
+
+.campo-metragem span {
+    color: #777;
+    font-size: 14px;
+}
+
+.modal-botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    margin-top: 28px;
+}
+
+.modal-botoes button {
+    border: none;
+
+    padding: 12px 18px;
+    border-radius: 8px;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background: #eeeeee;
+    color: #555;
+}
+
+.btn-salvar {
+    background: #59a9e8;
+    color: white;
+}
+
+@media (max-width: 600px) {
+
+    .modal-conteudo {
+        padding: 20px;
+    }
+
+    .modal-botoes {
+        flex-direction: column-reverse;
+    }
+
+    .modal-botoes button {
+        width: 100%;
+    }
+}
+
+.modal-conteudo select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    background: white;
+}

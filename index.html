@@ -1952,6 +1952,7 @@
 
                 </p>
 
+
             </div>
 
         </div>
@@ -1976,9 +1977,23 @@
         </div>
 
     </div>
+    <div class="text-center" style="margin-top: 20px;">
+    <a href="admin/login.html"
+       style="
+           display:inline-block;
+           padding:10px 20px;
+           background:#ffffff;
+           color:#111111;
+           border-radius:6px;
+           text-decoration:none;
+           font-size:14px;
+           font-weight:600;
+       ">
+        Área Administrativa
+    </a>
+</div>
 
 </footer>
-
 
 <!-- =====================================================
      JAVASCRIPT
@@ -2298,6 +2313,113 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-publico.js"></script>
+
+<script>
+async function atualizarProdutosComSupabase() {
+
+    const { data: produtosBanco, error } = await supabasePublico
+        .from("produtos")
+        .select("codigo,nome,descricao,disponivel,foto_principal");
+        console.log("ERRO SUPABASE:", error);
+console.log("PRODUTOS RECEBIDOS:", produtosBanco);
+
+    if (error) {
+        console.error("Erro ao carregar produtos do Supabase:", error);
+        return;
+    }
+
+    const cards = document.querySelectorAll(".mwrap");
+
+    cards.forEach(function(card) {
+
+        const categoria = card.getAttribute("data-c");
+
+        if (!categoria) return;
+
+        const produtosDaCategoria = Array.from(
+            document.querySelectorAll(
+                '.mwrap[data-c="' + categoria + '"]'
+            )
+        );
+
+        const numero = produtosDaCategoria.indexOf(card) + 1;
+
+        const codigo =
+            categoria + "-" + String(numero).padStart(2, "0");
+
+        const produtoBanco = produtosBanco.find(
+            produto => produto.codigo === codigo
+        );
+
+        // Se ainda não cadastramos esse tecido no Supabase,
+        // mantém o card original do site.
+        if (!produtoBanco) return;
+
+
+        /* FOTO */
+        if (produtoBanco.foto_principal) {
+
+            const imagem = card.querySelector(".mimg img");
+
+            if (imagem) {
+                imagem.src = produtoBanco.foto_principal;
+            }
+        }
+
+
+        /* NOME */
+        if (produtoBanco.nome) {
+
+            const titulo = card.querySelector(".mtit");
+
+            if (titulo) {
+                titulo.textContent = produtoBanco.nome;
+            }
+        }
+
+
+        /* DESCRIÇÃO */
+        if (produtoBanco.descricao) {
+
+            const descricao = card.querySelector(".mdesc");
+
+            if (descricao) {
+                descricao.textContent = produtoBanco.descricao;
+            }
+        }
+
+
+        /* DISPONIBILIDADE */
+        const preco = card.querySelector(".mprice");
+
+        if (!produtoBanco.disponivel) {
+
+            card.classList.add("produto-indisponivel");
+
+            if (preco) {
+                preco.textContent = "Temporariamente indisponível";
+                preco.classList.add("texto-indisponivel");
+            }
+
+        } else {
+
+            card.classList.remove("produto-indisponivel");
+
+            if (preco) {
+                preco.classList.remove("texto-indisponivel");
+            }
+        }
+
+    });
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    atualizarProdutosComSupabase
+);
 </script>
 </body>
 </html>

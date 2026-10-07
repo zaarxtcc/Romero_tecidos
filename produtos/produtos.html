@@ -286,12 +286,12 @@ s
             transform: translateY(-2px);
         }
 
-        .btn-whatsapp {
+        .btnwhatsapp {
             background: #25d366;
             color: #fff;
         }
 
-        .btn-whatsapp:hover {
+        .btnWhatsapp:hover {
             background: #1ebe5d;
             transform: translateY(-2px);
         }
@@ -461,17 +461,17 @@ s
 
     <section class="produto-info">
 
-        <p class="categoria">
-            Tricoline
-        </p>
+        <p class="categoria" id="produtoCategoria">
+    Tricoline
+</p>
 
-        <h1>
-            Tricoline
-        </h1>
+<h1 id="produtoNome">
+    Tricoline
+</h1>
 
-        <p class="codigo">
-            Código: TRI-001
-        </p>
+<p class="codigo" id="produtoCodigo">
+    Código: tricoline-01
+</p>
 
 
         <!-- PREÇO -->
@@ -525,16 +525,13 @@ s
 
         <div class="descricao">
 
-            <h3>Sobre este tecido</h3>
+    <h3>Sobre este tecido</h3>
 
-            <p>
-                Conheça nossa seleção de tricolines.
-                Consulte a Romero Tecidos para informações
-                sobre cores, disponibilidade, composição
-                e outras características do produto.
-            </p>
+    <p id="produtoDescricao">
+        Consulte a Romero Tecidos para mais informações sobre este tecido.
+    </p>
 
-        </div>
+</div>
 
 
         <!-- INDICAÇÕES -->
@@ -586,10 +583,11 @@ s
 
 
             <a
+            id="btnWhatsapp"
                 href="https://wa.me/5519989594037?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20a%20Tricoline."
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-whatsapp"
+                class="btn btnWhatsapp"
             >
                 <i class="fa-brands fa-whatsapp"></i>
                 Tirar dúvida pelo WhatsApp
@@ -664,8 +662,228 @@ s
     }
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-publico.js"></script>
 
+<script>
+async function carregarProdutoSupabase() {
+
+    const parametros = new URLSearchParams(window.location.search);
+    const codigo = parametros.get("id");
+
+    if (!codigo) {
+        console.error("Produto sem código na URL.");
+        return;
+    }
+
+    const { data: produto, error } = await supabasePublico
+        .from("produtos")
+        .select("*")
+        .eq("codigo", codigo)
+        .maybeSingle();
+
+    console.log("PRODUTO SUPABASE:", produto);
+
+    if (error) {
+        console.error("Erro ao carregar produto:", error);
+        return;
+    }
+
+    if (!produto) {
+        console.log("Produto ainda não cadastrado no Supabase.");
+        return;
+    }
+
+    atualizarPaginaProduto(produto);
+}
+
+
+function atualizarPaginaProduto(produto) {
+
+    console.log("Produto encontrado:", produto.nome);
+
+    // =========================
+    // TEXTOS
+    // =========================
+
+    const nome = document.getElementById("produtoNome");
+    const categoria = document.getElementById("produtoCategoria");
+    const codigo = document.getElementById("produtoCodigo");
+    const descricao = document.getElementById("produtoDescricao");
+
+    if (nome) {
+        nome.textContent = produto.nome || "Tecido";
+    }
+
+    if (categoria) {
+        categoria.textContent = produto.categoria || "";
+    }
+
+    if (codigo) {
+        codigo.textContent = "Código: " + produto.codigo;
+    }
+
+    if (descricao) {
+        descricao.textContent =
+            produto.descricao ||
+            "Consulte a Romero Tecidos para mais informações sobre este tecido.";
+    }
+
+
+    // =========================
+    // TÍTULO DA ABA
+    // =========================
+
+    document.title =
+        (produto.nome || "Produto") +
+        " | Romero Tecidos";
+
+
+    // =========================
+    // FOTOS
+    // =========================
+
+    const imagemPrincipal =
+        document.getElementById("imagemPrincipal");
+
+    const miniaturas =
+        document.querySelectorAll(".miniatura img");
+
+    const fotos = [
+        produto.foto_principal,
+        produto.foto_2,
+        produto.foto_3
+    ].filter(Boolean);
+
+
+    // Se existir pelo menos uma foto no Supabase
+    if (fotos.length > 0) {
+
+        imagemPrincipal.src = fotos[0];
+        imagemPrincipal.alt = produto.nome || "Tecido";
+
+        miniaturas.forEach(function(img, index) {
+
+            if (fotos[index]) {
+
+                img.src = fotos[index];
+                img.alt =
+                    (produto.nome || "Tecido") +
+                    " - foto " +
+                    (index + 1);
+
+                img.parentElement.style.display = "";
+
+            } else {
+
+                img.parentElement.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    // =========================
+    // WHATSAPP
+    // =========================
+
+    const botaoWhatsapp =
+        document.getElementById("btnWhatsapp");
+
+    if (botaoWhatsapp) {
+
+        const mensagem =
+            "Olá! Gostaria de mais informações sobre o tecido " +
+            (produto.nome || produto.codigo) +
+            ".";
+
+        botaoWhatsapp.href =
+            "https://wa.me/5519989594037?text=" +
+            encodeURIComponent(mensagem);
+
+    }
+
+
+    // =========================
+    // MERCADO LIVRE
+    // =========================
+
+    const botaoML =
+        document.getElementById("btnMercadoLivre");
+
+    if (!botaoML) {
+        console.error(
+            "Botão do Mercado Livre não encontrado."
+        );
+        return;
+    }
+
+
+    // PRODUTO INDISPONÍVEL
+    if (produto.disponivel === false) {
+
+        botaoML.href = "#";
+
+        botaoML.innerHTML = `
+            <i class="fa-solid fa-cart-shopping"></i>
+            Produto indisponível
+        `;
+
+        botaoML.style.opacity = "0.6";
+        botaoML.style.cursor = "not-allowed";
+
+        botaoML.onclick = function(event) {
+            event.preventDefault();
+        };
+
+        return;
+    }
+
+
+    // DISPONÍVEL MAS SEM LINK
+    if (!produto.link_mercado_livre) {
+
+        botaoML.href = "#";
+
+        botaoML.innerHTML = `
+            <i class="fa-solid fa-cart-shopping"></i>
+            Em breve no Mercado Livre
+        `;
+
+        botaoML.style.opacity = "0.6";
+        botaoML.style.cursor = "not-allowed";
+
+        botaoML.onclick = function(event) {
+            event.preventDefault();
+        };
+
+        return;
+    }
+
+
+    // DISPONÍVEL + MERCADO LIVRE
+    botaoML.href =
+        produto.link_mercado_livre;
+
+    botaoML.target = "_blank";
+    botaoML.rel = "noopener noreferrer";
+
+    botaoML.innerHTML = `
+        <i class="fa-solid fa-cart-shopping"></i>
+        Comprar no Mercado Livre
+    `;
+
+    botaoML.style.opacity = "1";
+    botaoML.style.cursor = "pointer";
+
+    botaoML.onclick = null;
+}
+
+document.addEventListener("DOMContentLoaded", carregarProdutoSupabase);
+
+</script>
 
 </body>
-
 </html>

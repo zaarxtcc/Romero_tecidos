@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Administrativo | Romero Tecidos</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <div id="painel" style="display: none;">
+
+        <header class="admin-header">
+            <div>
+                <h1>Romero Tecidos</h1>
+                <p>Painel Administrativo</p>
+            </div>
+
+            <button id="btnSair">Sair</button>
+        </header>
+
+        <main class="admin-container">
+
+            <div class="admin-title">
+                <div>
+                    <h2>Produtos</h2>
+                    <p>Gerencie os tecidos disponíveis no site.</p>
+                </div>
+
+                <button id="btnNovoProduto">
+                    + Novo tecido
+                </button>
+            </div>
+
+            <div id="listaProdutos">
+                <p>Carregando produtos...</p>
+            </div>
+
+        </main>
+
+    </div>
+    <!-- =====================================
+     MODAL EDITAR PRODUTO
+====================================== -->
+<!-- MODAL NOVO TECIDO -->
+<div id="modalNovo" class="modal-admin">
+
+    <div class="modal-conteudo">
+
+        <div class="modal-topo">
+            <div>
+                <h2>Novo tecido</h2>
+                <p>Cadastre um novo produto no catálogo.</p>
+            </div>
+
+            <button
+                class="modal-fechar"
+                onclick="fecharNovoProduto()"
+            >
+                ×
+            </button>
+        </div>
+
+
+        <label>Nome do tecido</label>
+        <input
+            type="text"
+            id="novoNome"
+            placeholder="Ex: Jeans Azul Claro"
+        >
+
+
+        <label>Categoria</label>
+
+        <select id="novaCategoria">
+
+            <option value="">Selecione uma categoria</option>
+
+            <option value="tricoline">Tricoline</option>
+            <option value="jeans">Jeans</option>
+            <option value="linho">Linho</option>
+            <option value="viscose">Viscose</option>
+            <option value="viscolinho">Viscolinho</option>
+            <option value="brim">Brim</option>
+            <option value="alfaiataria">Alfaiataria</option>
+            <option value="camisaria">Camisaria</option>
+            <option value="malhas">Malhas</option>
+            <option value="algodao_cru">Algodão Cru</option>
+            <option value="cetim">Cetim</option>
+            <option value="renda">Renda</option>
+
+        </select>
+
+
+        <label>Descrição</label>
+
+        <textarea
+            id="novaDescricao"
+            placeholder="Descrição do tecido"
+        ></textarea>
+
+
+        <label>Metragem disponível</label>
+
+        <div class="campo-metragem">
+
+            <input
+                type="number"
+                id="novaMetragem"
+                min="0"
+                step="0.01"
+                value="0"
+            >
+
+            <span>metros</span>
+
+        </div>
+
+
+        <label>Link do Mercado Livre</label>
+
+        <input
+            type="url"
+            id="novoMercadoLivre"
+            placeholder="https://..."
+        >
+
+
+        <div class="modal-botoes">
+
+            <button
+                class="btn-cancelar"
+                onclick="fecharNovoProduto()"
+            >
+                Cancelar
+            </button>
+
+            <button
+                class="btn-salvar"
+                onclick="cadastrarNovoProduto()"
+            >
+                Cadastrar tecido
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="modalEditar" class="modal-admin">
+
+    <div class="modal-conteudo">
+
+        <div class="modal-topo">
+
+            <div>
+                <h2>Editar tecido</h2>
+                <p>Altere as informações do produto.</p>
+            </div>
+
+            <button
+                class="modal-fechar"
+                onclick="fecharEdicao()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <input type="hidden" id="editarId">
+
+
+        <label>Nome do tecido</label>
+
+        <input
+            type="text"
+            id="editarNome"
+            placeholder="Nome do tecido"
+        >
+
+
+        <label>Categoria</label>
+
+        <input
+            type="text"
+            id="editarCategoria"
+            placeholder="Ex: Tricoline"
+        >
+
+
+        <label>Descrição</label>
+
+        <textarea
+            id="editarDescricao"
+            placeholder="Descrição do tecido"
+        ></textarea>
+
+
+        <label>Metragem disponível</label>
+
+        <div class="campo-metragem">
+
+            <input
+                type="number"
+                id="editarMetragem"
+                min="0"
+                step="0.01"
+            >
+
+            <span>metros</span>
+
+        </div>
+
+
+        <label>Link do Mercado Livre</label>
+
+        <input
+            type="url"
+            id="editarMercadoLivre"
+            placeholder="https://..."
+        >
+
+
+        <div class="modal-botoes">
+
+            <button
+                class="btn-cancelar"
+                onclick="fecharEdicao()"
+            >
+                Cancelar
+            </button>
+
+            <button
+                class="btn-salvar"
+                onclick="salvarEdicao()"
+            >
+                Salvar alterações
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+
+<script src="admin.js"></script>
+
+<script>
+    async function verificarLogin() {
+
+        const { data: { session } } =
+            await supabaseClient.auth.getSession();
+
+        if (!session) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        document.getElementById("painel").style.display = "block";
+
+        carregarProdutos();
+    }
+
+
+    document
+        .getElementById("btnSair")
+        .addEventListener("click", async function () {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href = "login.html";
+        });
+
+
+    verificarLogin();
+</script>
+
+</body>
+</html>

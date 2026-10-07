@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Romero Tecidos</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+    <!-- Biblioteca oficial do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="login-page">
+
+    <div class="login-box">
+
+        <h1>Romero Tecidos</h1>
+        <p>Painel Administrativo</p>
+
+        <form id="loginForm">
+
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Digite seu e-mail"
+                required
+            >
+
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                required
+            >
+
+            <button type="submit">
+                Entrar
+            </button>
+
+            <p id="mensagem"></p>
+
+        </form>
+
+    </div>
+
+    <!-- Conexão com Supabase -->
+    <script src="js/supabase.js"></script>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const mensagem = document.getElementById("mensagem");
+
+        loginForm.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+
+            mensagem.textContent = "Entrando...";
+
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: senha
+                });
+
+            if (error) {
+                console.error(error);
+                mensagem.textContent = "E-mail ou senha incorretos.";
+                return;
+            }
+
+            window.location.href = "painel.html";
+        });
+    </script>
+
+</body>
+</html>
