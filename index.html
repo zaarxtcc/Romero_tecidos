@@ -2322,7 +2322,7 @@ async function atualizarProdutosComSupabase() {
 
     const { data: produtosBanco, error } = await supabasePublico
         .from("produtos")
-        .select("codigo,nome,descricao,disponivel,foto_principal");
+        .select("codigo,nome,categoria,descricao,disponivel,foto_principal");
         console.log("ERRO SUPABASE:", error);
 console.log("PRODUTOS RECEBIDOS:", produtosBanco);
 
@@ -2413,6 +2413,81 @@ console.log("PRODUTOS RECEBIDOS:", produtosBanco);
             }
         }
 
+    });
+
+    // Adiciona somente produtos que ainda não têm cartão fixo no HTML.
+    // O código real, e não a posição na grade, identifica cada produto.
+    const grade = document.getElementById("mgrid");
+    if (!grade) return;
+    const categoriasValidas = new Set(
+        Array.from(document.querySelectorAll(".mwrap[data-c]"), c => c.dataset.c)
+    );
+    const codigosFixos = new Set();
+    const contagem = {};
+    document.querySelectorAll(".mwrap[data-c]").forEach(card => {
+        const cat = card.dataset.c;
+        contagem[cat] = (contagem[cat] || 0) + 1;
+        const codigo = cat + "-" + String(contagem[cat]).padStart(2, "0");
+        codigosFixos.add(codigo);
+    });
+
+    // Impede duplicação caso a atualização seja executada mais de uma vez.
+    grade.querySelectorAll(".mwrap[data-dinamico='true']").forEach(el => el.remove());
+    for (const p of produtosBanco) {
+        if (!p.codigo || codigosFixos.has(p.codigo)) continue;
+        const categoria = String(p.categoria || "").trim().toLowerCase();
+        const prefixo = p.codigo.replace(/-\d+$/, "").toLowerCase();
+        // Exige correspondência entre categoria cadastrada e código.
+        if (!categoriasValidas.has(categoria) || prefixo !== categoria) {
+            console.warn("Produto com categoria/código divergente:", p.codigo, p.categoria);
+            continue;
+        }
+        const modelo = document.querySelector('.mwrap[data-c="' + categoria + '"]');
+        if (!modelo) continue;
+        const card = modelo.cloneNode(true);
+        card.dataset.dinamico = "true";
+        card.dataset.codigo = p.codigo;
+        card.classList.remove("produto-indisponivel");
+        const img = card.querySelector(".mimg img");
+        if (img) {
+            if (p.foto_principal) img.src = p.foto_principal;
+            else img.removeAttribute("src"); // Nunca mostra a foto de outro tecido.
+            img.alt = p.nome || p.codigo;
+        }
+        const titulo = card.querySelector(".mtit");
+        if (titulo) titulo.textContent = p.nome || p.codigo;
+        const descricao = card.querySelector(".mdesc");
+        if (descricao) descricao.textContent = p.descricao || "";
+        const preco = card.querySelector(".mprice");
+        if (!p.disponivel) {
+            card.classList.add("produto-indisponivel");
+            if (preco) {
+                preco.textContent = "Temporariamente indisponível";
+                preco.classList.add("texto-indisponivel");
+            }
+        }
+        card.style.cursor = "pointer";
+        card.addEventListener("click", event => {
+            if (event.target.closest("a, button")) return;
+            window.location.href = "produtos/produtos.html?id=" + encodeURIComponent(p.codigo);
+        });
+        grade.appendChild(card);
+    }
+
+    // O filtro original usa uma lista estática; reaplica o filtro incluindo os novos cartões.
+    const ativo = document.querySelector(".filtbtn.active");
+    const categoriaAtiva = ativo ? ativo.getAttribute("data-f") : "all";
+    function aplicarFiltroAtual(categoria) {
+        grade.querySelectorAll(".mwrap").forEach(card => {
+            card.classList.toggle("gone", categoria !== "all" && card.dataset.c !== categoria);
+        });
+    }
+    aplicarFiltroAtual(categoriaAtiva || "all");
+    document.querySelectorAll(".filtbtn").forEach(botao => {
+        botao.addEventListener("click", () => aplicarFiltroAtual(botao.dataset.f || "all"));
+    });
+    document.querySelectorAll(".catcard").forEach(botao => {
+        botao.addEventListener("click", () => aplicarFiltroAtual(botao.dataset.filter || "all"));
     });
 }
 
