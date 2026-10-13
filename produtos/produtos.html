@@ -408,7 +408,7 @@ s
      PRODUTO
 ========================= -->
 
-<main class="produto-container">
+<main class="produto-container" id="conteudoProduto" style="visibility:hidden">
 
 
     <!-- FOTOS -->
@@ -672,6 +672,8 @@ async function carregarProdutoSupabase() {
     const codigo = parametros.get("id");
 
     if (!codigo) {
+        document.getElementById("conteudoProduto").innerHTML = "<p>Produto não informado.</p>";
+        document.getElementById("conteudoProduto").style.visibility = "visible";
         console.error("Produto sem código na URL.");
         return;
     }
@@ -685,16 +687,21 @@ async function carregarProdutoSupabase() {
     console.log("PRODUTO SUPABASE:", produto);
 
     if (error) {
+        document.getElementById("conteudoProduto").innerHTML = "<p>Não foi possível carregar o produto. Atualize a página.</p>";
+        document.getElementById("conteudoProduto").style.visibility = "visible";
         console.error("Erro ao carregar produto:", error);
         return;
     }
 
     if (!produto) {
+        document.getElementById("conteudoProduto").innerHTML = "<p>Produto não encontrado.</p>";
+        document.getElementById("conteudoProduto").style.visibility = "visible";
         console.log("Produto ainda não cadastrado no Supabase.");
         return;
     }
 
     atualizarPaginaProduto(produto);
+    document.getElementById("conteudoProduto").style.visibility = "visible";
 }
 
 

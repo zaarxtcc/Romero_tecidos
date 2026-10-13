@@ -2258,59 +2258,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 
-/* =============================================
-   ABRIR PÁGINA DO PRODUTO
-============================================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const produtos = document.querySelectorAll(".mwrap");
-
-    produtos.forEach(function (produto) {
-
-        produto.style.cursor = "pointer";
-
-        produto.addEventListener("click", function (event) {
-
-            /* Não interfere se clicar em um link ou botão */
-            if (event.target.closest("a, button")) {
-                return;
-            }
-
-            const categoria = produto.getAttribute("data-c");
-
-            if (!categoria) {
-                return;
-            }
-
-            /*
-               Descobre qual número esse produto ocupa
-               dentro da própria categoria.
-            */
-
-            const produtosDaCategoria =
-                Array.from(
-                    document.querySelectorAll(
-                        '.mwrap[data-c="' + categoria + '"]'
-                    )
-                );
-
-            const numero =
-                produtosDaCategoria.indexOf(produto) + 1;
-
-            const numeroFormatado =
-                String(numero).padStart(2, "0");
-
-            const idProduto =
-                categoria + "-" + numeroFormatado;
-
-            window.location.href =
-    "produtos/produtos.html?id=" + idProduto;
-
-        });
-
-    });
-
+/* Abrir página do produto pelo código real do Supabase. */
+document.addEventListener("click", function(event) {
+    const card = event.target.closest(".mwrap");
+    if (!card || event.target.closest("a, button")) return;
+    const codigo = card.dataset.codigo;
+    if (codigo) window.location.href = "produtos/produtos.html?id=" + encodeURIComponent(codigo);
 });
 
 </script>
@@ -2319,107 +2272,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 async function atualizarProdutosComSupabase() {
-
-    const { data: produtosBanco, error } = await supabasePublico
-        .from("produtos")
-        .select("codigo,nome,descricao,disponivel,foto_principal");
-        console.log("ERRO SUPABASE:", error);
-console.log("PRODUTOS RECEBIDOS:", produtosBanco);
-
-    if (error) {
-        console.error("Erro ao carregar produtos do Supabase:", error);
-        return;
-    }
-
-    const cards = document.querySelectorAll(".mwrap");
-
-    cards.forEach(function(card) {
-
-        const categoria = card.getAttribute("data-c");
-
-        if (!categoria) return;
-
-        const produtosDaCategoria = Array.from(
-            document.querySelectorAll(
-                '.mwrap[data-c="' + categoria + '"]'
-            )
-        );
-
-        const numero = produtosDaCategoria.indexOf(card) + 1;
-
-        const codigo =
-            categoria + "-" + String(numero).padStart(2, "0");
-
-        const produtoBanco = produtosBanco.find(
-            produto => produto.codigo === codigo
-        );
-
-        // Se ainda não cadastramos esse tecido no Supabase,
-        // mantém o card original do site.
-        if (!produtoBanco) return;
-
-
-        /* FOTO */
-        if (produtoBanco.foto_principal) {
-
-            const imagem = card.querySelector(".mimg img");
-
-            if (imagem) {
-                imagem.src = produtoBanco.foto_principal;
-            }
-        }
-
-
-        /* NOME */
-        if (produtoBanco.nome) {
-
-            const titulo = card.querySelector(".mtit");
-
-            if (titulo) {
-                titulo.textContent = produtoBanco.nome;
-            }
-        }
-
-
-        /* DESCRIÇÃO */
-        if (produtoBanco.descricao) {
-
-            const descricao = card.querySelector(".mdesc");
-
-            if (descricao) {
-                descricao.textContent = produtoBanco.descricao;
-            }
-        }
-
-
-        /* DISPONIBILIDADE */
-        const preco = card.querySelector(".mprice");
-
-        if (!produtoBanco.disponivel) {
-
-            card.classList.add("produto-indisponivel");
-
-            if (preco) {
-                preco.textContent = "Temporariamente indisponível";
-                preco.classList.add("texto-indisponivel");
-            }
-
-        } else {
-
-            card.classList.remove("produto-indisponivel");
-
-            if (preco) {
-                preco.classList.remove("texto-indisponivel");
-            }
-        }
-
+    const grade = document.getElementById("mgrid");
+    if (!grade || typeof supabasePublico === "undefined") return;
+    const cardsOriginais = Array.from(grade.querySelectorAll(".mwrap"));
+    const modelos = new Map();
+    const categorias = new Map();
+    cardsOriginais.forEach(card => {
+        const categoria = card.dataset.c;
+        const lista = cardsOriginais.filter(c => c.dataset.c === categoria);
+        const codigo = categoria + "-" + String(lista.indexOf(card) + 1).padStart(2,"0");
+        card.dataset.codigo = codigo;
+        if (!modelos.has(categoria)) modelos.set(categoria, card.cloneNode(true));
+        if (!categorias.has(categoria)) categorias.set(categoria, card.querySelector(".mcat")?.textContent.trim() || categoria);
     });
+    const { data, error } = await supabasePublico.from("produtos")
+        .select("codigo,nome,categoria,descricao,disponivel,foto_principal")
+        .order("codigo", {ascending:true}).range(0,999);
+    if (error) { console.error("Erro ao carregar produtos:",error); return; }
+    const existentes = new Map(cardsOriginais.map(c => [c.dataset.codigo,c]));
+    (data || []).forEach(produto => {
+        if (!produto.codigo) return;
+        const categoria = Array.from(modelos.keys()).find(c => produto.codigo.startsWith(c + "-"));
+        if (!categoria) { console.warn("Categoria sem modelo visual:",produto.codigo); return; }
+        let card = existentes.get(produto.codigo);
+        if (!card) {
+            card = modelos.get(categoria).cloneNode(true);
+            card.dataset.c = categoria;
+            card.dataset.codigo = produto.codigo;
+            card.style.cursor = "pointer";
+            grade.appendChild(card);
+            existentes.set(produto.codigo,card);
+        }
+        const imagem = card.querySelector(".mimg img");
+        if (imagem && produto.foto_principal) { imagem.src = produto.foto_principal; imagem.alt = produto.nome || categorias.get(categoria); }
+        const titulo = card.querySelector(".mtit");
+        if (titulo && produto.nome) titulo.textContent = produto.nome;
+        const descricao = card.querySelector(".mdesc");
+        if (descricao) descricao.textContent = produto.descricao || "Tecido disponível na Romero Tecidos.";
+        const preco = card.querySelector(".mprice");
+        card.classList.toggle("produto-indisponivel", produto.disponivel === false);
+        if (preco) {
+            preco.classList.toggle("texto-indisponivel", produto.disponivel === false);
+            if (produto.disponivel === false) preco.textContent = "Temporariamente indisponível";
+        }
+    });
+    // Atualiza filtros para incluir também os novos cartões.
+    document.querySelectorAll(".filtbtn.ativo").forEach(botao => botao.click());
 }
-
-document.addEventListener(
-    "DOMContentLoaded",
-    atualizarProdutosComSupabase
-);
+document.addEventListener("DOMContentLoaded", atualizarProdutosComSupabase);
 </script>
 </body>
 </html>
